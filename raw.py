@@ -1,17 +1,21 @@
 from tkinter import *
 from pynput import keyboard
 
-theme = {"Dark theme": "#21201e", "Light theme": "#e3e0da"}
+# Main variebles
+dark_theme = ["#21201e", "#e3e0da", "#131414"]
+light_theme = ["#e3e0da", "#000000", "#babfbf"]
 Output = ""
 size = 25
 
 window = Tk()
 window.geometry("900x600")
 window.title("Goofy ahh text editor")
-window.config(background=theme["Light theme"])
+window.config(background=light_theme[0]) 
 
-label = Label(window, text=Output, font=("Ariel", size, "bold"))
+label = Label(window, text=Output+"|", font=("Ariel", size, "bold"), fg=light_theme[1], bg=light_theme[0])
 label.place(x=0, y=0)
+
+settings_button = Button()
 
 # Function to handle key press events
 def on_press(key):
@@ -28,7 +32,7 @@ def on_press(key):
             Output = Output[:-1]  # Remove the last character
         
         # Update the label with new text
-        label.config(text=Output)
+        label.config(text=Output+"|")
     except Exception as e:
         print(f"Error: {e}")
 

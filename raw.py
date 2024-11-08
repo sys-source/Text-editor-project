@@ -5,8 +5,8 @@ dark_theme = ["#21201e", "#e3e0da", "#131414"]
 light_theme = ["#e3e0da", "#000000", "#babfbf"]
 Output = ""
 size = 25
-LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=...)    # Settings button light theme        
-DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=...)     # Settings button dark theme  
+LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=...)    # Settings button (light theme)        
+DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=...)     # Settings button (dark theme)  
 
 # Defining commands for buttons
 def open_settings():

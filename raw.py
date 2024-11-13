@@ -12,8 +12,8 @@ window = Tk()
 window.title("Goofy ahh text editor")
 
 
-LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)        
-DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 191922.png")     # Settings button (dark theme)  
+LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"Screenshot 2024-11-01 185621.png")    # Settings button (light theme)        
+DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"Screenshot 2024-11-01 191922.png")     # Settings button (dark theme)  
 
 # Defining commands for buttons
 def open_settings():
@@ -43,6 +43,20 @@ def open_settings():
 def save_file():
     input = text.get("1.0", END)
     print(input)
+    with open(os.getcwd() + '\ '+entry.get() + '.' + entry2.get() ,'a') as f:
+                f.write(input)
+                print(os.getcwd())
+                print(input)
+
+#ayo lock in this is the place where you insert file name \(-_-)/
+entry = Entry()
+entry.insert(0,'filename')
+entry.config(width=20)
+entry.pack()
+entry2 = Entry()
+entry2.insert(0,'ext')
+entry2.config(width=8)
+entry2.pack()
 
 
 # Creating text area and showing it
@@ -57,7 +71,7 @@ bottom_label.place(relx=0, rely=0.958)
 settings_button = Button(window, command=open_settings, image=DARK_THEME_SETTINGS_BUTTON_IMAGE, width=70, height=36)
 settings_button.place(relx=0, rely=0.959)
 
-saving_files_button = Button(window, fg="white", text="save me!", command=save_file)
+saving_files_button = Button(window, fg="black", text="save me!", command=save_file)
 saving_files_button.place(x=0, y=0)
 
 input = text.get("1.0", END)
@@ -70,11 +84,7 @@ def on_press(key):
         if hasattr(key, 'char') and key.char is not None:
             Output += key.char
         elif key == keyboard.Key.f5:
-            with open(os.getcwd() + '\ luanonna.txt' ,'a') as f:
-                f.write(input)
-                print(os.getcwd())
-                print(input)
-
+            save_file()
     except Exception as e:
         print(f"Error: {e}")
 listener = keyboard.Listener(on_press=on_press)

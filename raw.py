@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 from pynput import keyboard
 import os
 
@@ -7,14 +8,15 @@ dark_theme = ["#21201e", "#e3e0da", "#131414"]
 light_theme = ["#e3e0da", "#000000", "#babfbf"]
 Output = ""
 size = 25
+file_path = os.getcwd()
+
 
 window = Tk()
 window.title("Goofy ahh text editor")
 
 
-LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
-DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 191922.png")     # Settings button (dark theme) 
-
+LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\CoseBrutteSulDesktop\PyTextEditor\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
+DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\CoseBrutteSulDesktop\PyTextEditor\Screenshot 2024-11-01 191922.png")
 # Defining commands for buttons
 
 def close_settings():
@@ -65,10 +67,23 @@ def open_settings():
 def save_file():
     input = text.get("1.0", END)
     print(input)
-    with open(os.getcwd() + '\ '+entry.get() + '.' + entry2.get() ,'a') as f:
-                f.write(input)
-                print(os.getcwd())
-                print(input)
+    if file_path == os.getcwd():
+        with open(file_path + '\ '+entry.get() + '.' + entry2.get() ,'a') as f:
+                    f.write(input)
+                    print(os.getcwd())
+                    print(input)
+    if file_path != os.getcwd():
+                with open(file_path,'w') as f:
+                    f.write(input)
+                    print(os.getcwd())
+                    print(input)
+#ligma check this out
+def ask_open_file():
+    file_path = filedialog.askopenfilename(title="Select a File")
+    with open(file_path,'r') as f:
+            text.delete("1.0", END)
+            text.insert(END, ''.join(f.readlines()))
+
 
 #ayo lock in this is the place where you insert file name \(-_-)/
 entry = Entry()
@@ -96,6 +111,8 @@ settings_button.place(relx=0, rely=0.959)
 saving_files_button = Button(window, fg="black", text="save me!", command=save_file)
 saving_files_button.place(x=0, y=0)
 
+opening_files_button = Button(window, fg="black", text="open a file", command=ask_open_file)
+opening_files_button.place(x=60, y=0)
 input = text.get("1.0", END)
 print(input)
 

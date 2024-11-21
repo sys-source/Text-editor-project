@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import font
 from tkinter import filedialog
 from pynput import keyboard
 import os
@@ -9,14 +10,17 @@ light_theme = ["#e3e0da", "#000000", "#babfbf"]
 Output = ""
 size = 25
 file_path = os.getcwd()
+current_font = "Default font"
 
 
 window = Tk()
 window.title("Goofy ahh text editor")
 
+available_fonts = list(font.families())
 
-LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\CoseBrutteSulDesktop\PyTextEditor\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
-DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\CoseBrutteSulDesktop\PyTextEditor\Screenshot 2024-11-01 191922.png")
+
+LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
+DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 191922.png")     # Settings button (dark theme)
 # Defining commands for buttons
 
 def close_settings():
@@ -29,6 +33,27 @@ def close_settings():
     settings_button_for_closing.destroy()
     settings_button_for_font.destroy()
 
+def select_font():
+    def update_font(event):
+        global current_font
+        global text
+        current_font = font_box.get(font_box.curselection())
+        font_box.destroy()
+        close_settings()
+        open_settings()
+        print(current_font)
+        text.config(font=(current_font, 25))
+
+    index = 0
+    font_box = Listbox(window, width=37, bg=dark_theme[0], fg=dark_theme[1])
+    for i in available_fonts:
+        font_box.insert(index, i)
+        index += 1
+    font_box.place(relx=0.491, rely=0.27)
+    font_box.bind("<<ListboxSelect>>", update_font)
+
+def change_font_size():
+    pass
 
 def open_settings():
     global settings_label, settings_label_for_settings
@@ -45,21 +70,25 @@ def open_settings():
     settings_label_for_settings.place(relx=0.5, rely=0.15, anchor=CENTER)
 
     # creating the texts next to the buttons
-    settings_label_for_font_size = Label(window, bg=dark_theme[2], fg=dark_theme[1], text="Font size:", font=("Ink free", 23), width=10, height=1)
-    settings_label_for_font_size.place(relx=0.38, rely=0.22)
-
     settings_label_for_font = Label(window, bg=dark_theme[2], fg=dark_theme[1], text="Font:", font=("Ink free", 23), width=10, height=1)
-    settings_label_for_font.place(relx=0.38, rely=0.45)
+    settings_label_for_font.place(relx=0.38, rely=0.22)
+
+    settings_label_for_font_size = Label(window, bg=dark_theme[2], fg=dark_theme[1], text="Font size:", font=("Ink free", 23), width=10, height=1)
+    settings_label_for_font_size.place(relx=0.38, rely=0.45)
 
     settings_label_for_theme = Label(window, bg=dark_theme[2], fg=dark_theme[1], text="Theme:", font=("Ink free", 23), width=10, height=1)
     settings_label_for_theme.place(relx=0.38, rely=0.68)
+
 
     #Creating the buttons
     settings_button_for_closing = Button(window, bg=dark_theme[2], text="×", font=("Ink free", 20), fg=dark_theme[1], width=5, height=2, borderwidth=0, activebackground=dark_theme[2], activeforeground=dark_theme[1], command=close_settings)
     settings_button_for_closing.place(relx=0.624, rely=0.09)
 
-    settings_button_for_font = Button(window, bg=dark_theme[0], text=size, fg=dark_theme[1], font=(30), height=2, width=20, activebackground=dark_theme[0], activeforeground=dark_theme[1])
-    settings_button_for_font.place(relx=0.56, rely=0.24, anchor=CENTER)
+    settings_button_for_font = Button(window, bg=dark_theme[0], text=current_font, fg=dark_theme[1], font=(current_font, 15), height=2, width=20, activebackground=dark_theme[0], activeforeground=dark_theme[1], command=select_font)
+    settings_button_for_font.place(relx=0.55, rely=0.24, anchor=CENTER)
+
+    settings_button_for_font_size = Button(window, bg=dark_theme[0], text=size, fg=dark_theme[1], font=(current_font, 15), height=2, width=20, activebackground=dark_theme[0], activeforeground=dark_theme[1], command=change_font_size)
+    settings_button_for_font_size.place(relx=0.55, rely=0.47, anchor=CENTER)
 
 
 
@@ -97,7 +126,7 @@ entry2.pack()
 
 
 # Creating text area and showing it
-text = Text(window, fg=dark_theme[1], bg=dark_theme[0],font=("Calibri", 25), padx=200, pady=100)
+text = Text(window, fg=dark_theme[1], bg=dark_theme[0], font=(current_font, 25), padx=200, pady=100)
 text.pack(expand=True, fill=BOTH)
 
 # Creating a label at the bottom of the screen
@@ -130,4 +159,32 @@ listener = keyboard.Listener(on_press=on_press)
 listener.start()
 # Looooooop
 window.mainloop()
+
+
+
+
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⠿⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣶⣿⣿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⡟⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣾⣿⣶⣶⣤⡀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠘⢿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀
+# ⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠈⠻⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀
+# ⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⣀⣤⣶⣶⣌⠻⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⠁⣰⣿⣿⣿⣿⣿⣦⡙⢿⣿⣿⣿⠄⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⣿⣿⣿⣿⣦⣙⣛⣋⣼⣿⣿⣶⣿⣿⣿⣿⣿⣿⣯⡉⠉⠉⠁⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⡆⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⡇⠀⢻⣿⣿⣿⣿⣿⡇⠀⠀⠈⠉⠉⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀
+# ⠀⣠⣴⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⡇⠀⠸⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠹⢿⣿⣿⢿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀
+# ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢰⣶⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣧⣄⣀⣀⣀⣀⣀⣀⡀
+# ⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 

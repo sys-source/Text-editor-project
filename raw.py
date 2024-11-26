@@ -19,8 +19,8 @@ window.title("Goofy ahh text editor")
 available_fonts = list(font.families())
 
 
-LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
-DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"C:\Users\anmar\Downloads\Screenshot 2024-11-01 191922.png")     # Settings button (dark theme)
+LIGHT_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"Screenshot 2024-11-01 185621.png")    # Settings button (light theme)              
+DARK_THEME_SETTINGS_BUTTON_IMAGE = PhotoImage(file=r"Screenshot 2024-11-01 191922.png")     # Settings button (dark theme)
 # Defining commands for buttons
 
 def close_settings():
@@ -32,6 +32,7 @@ def close_settings():
     settings_label_for_theme.destroy()
     settings_button_for_closing.destroy()
     settings_button_for_font.destroy()
+    settings_button_for_font_size.destroy()
 
 def select_font():
     def update_font(event):
@@ -59,7 +60,7 @@ def open_settings():
     global settings_label, settings_label_for_settings
     global settings_label_for_font_size, settings_label_for_font
     global settings_label_for_theme, settings_button_for_closing
-    global settings_button_for_font
+    global settings_button_for_font, settings_button_for_font_size
 
     # Creating the settings window 
     settings_label = Label(window, bg=dark_theme[2], width=90, height=55)
@@ -94,20 +95,36 @@ def open_settings():
 
 # Getting input (text on the screen)
 def save_file():
-    input = text.get("1.0", END)
-    print(input)
-    if file_path == os.getcwd():
-        with open(file_path + '\ '+entry.get() + '.' + entry2.get() ,'a') as f:
-                    f.write(input)
-                    print(os.getcwd())
-                    print(input)
-    if file_path != os.getcwd():
-                with open(file_path,'w') as f:
-                    f.write(input)
-                    print(os.getcwd())
-                    print(input)
+    global file_path  # Use the global variable to ensure changes persist
+    input_text = text.get("1.0", END).strip()  # Get the text and strip trailing newlines
+    if not input_text:
+        print("No text to save!")
+        return
+    
+    # Ensure file_path is valid
+    if not file_path:
+        file_path = os.getcwd()  # Default to current working directory
+    
+    # Get filename and extension from entries
+    filename = entry.get().strip()
+    extension = entry2.get().strip()
+    
+    if not filename or not extension:
+        print("Filename or extension is missing!")
+        return
+    
+    # Construct the full file path
+    full_path = os.path.join(file_path, f"{filename}.{extension}")
+    
+    try:
+        with open(full_path, 'w') as file:
+            file.write(input_text)
+        print(f"File saved successfully at {full_path}")
+    except Exception as e:
+        print(f"Error saving file: {e}")
 #ligma check this out
 def ask_open_file():
+    global file_path
     file_path = filedialog.askopenfilename(title="Select a File")
     with open(file_path,'r') as f:
             text.delete("1.0", END)
@@ -144,7 +161,6 @@ opening_files_button = Button(window, fg="black", text="open a file", command=as
 opening_files_button.place(x=60, y=0)
 input = text.get("1.0", END)
 print(input)
-
 def on_press(key):
     global Output
     try:
@@ -157,6 +173,7 @@ def on_press(key):
         print(f"Error: {e}")
 listener = keyboard.Listener(on_press=on_press)
 listener.start()
+
 # Looooooop
 window.mainloop()
 

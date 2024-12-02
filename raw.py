@@ -6,7 +6,7 @@ import os
 
 # Main variebles
 dark_theme = ["#21201e", "#e3e0da", "#131414", "Dark theme"]
-light_theme = ["#e3e0da", "#000000", "#babfbf", "Light theme"]
+light_theme = ["#e3e0da", "#000000", "#626664", "Light theme"]
 current_theme = dark_theme
 Output = ""
 size = 25
@@ -154,33 +154,48 @@ def open_settings():
 
 # Getting input (text on the screen)
 def save_file():
-    global file_path  # Use the global variable to ensure changes persist
-    input_text = text.get("1.0", END).strip()  # Get the text and strip trailing newlines
-    if not input_text:
-        print("No text to save!")
-        return
-    
-    # Ensure file_path is valid
-    if not file_path:
-        file_path = os.getcwd()  # Default to current working directory
-    
-    # Get filename and extension from entries
-    filename = entry.get().strip()
-    extension = entry2.get().strip()
-    
-    if not filename or not extension:
-        print("Filename or extension is missing!")
-        return
-    
-    # Construct the full file path
-    full_path = os.path.join(file_path, f"{filename}.{extension}")
-    
-    try:
-        with open(full_path, 'w') as file:
-            file.write(input_text)
-        print(f"File saved successfully at {full_path}")
-    except Exception as e:
-        print(f"Error saving file: {e}")
+    def save_filee(entry, entry2):
+        global file_path  # Use the global variable to ensure changes persist
+        input_text = text.get("1.0", END).strip()  # Get the text and strip trailing newlines
+        if not input_text:
+            print("No text to save!")
+            return
+        
+        # Ensure file_path is valid
+        if not file_path:
+            file_path = os.getcwd()  # Default to current working directory
+        
+        # Get filename and extension from entries
+        filename = entry.get().strip()
+        extension = entry2.get().strip()
+        
+        if not filename or not extension:
+            print("Filename or extension is missing!")
+            return
+        
+        # Construct the full file path
+        full_path = os.path.join(file_path, f"{filename}.{extension}")
+        
+        try:
+            with open(full_path, 'w') as file:
+                file.write(input_text)
+            print(f"File saved successfully at {full_path}")
+            saving_files_window.destroy()
+        except Exception as e:
+            print(f"Error saving file: {e}")
+
+    saving_files_window = Toplevel()
+    entry = Entry(saving_files_window, width=30)
+    entry.insert(0,'filename')
+    entry.pack()
+    entry2 = Entry(saving_files_window, width=18)
+    entry2.insert(0,'ext')
+    entry2.pack()
+    def save_fileee():
+        save_filee(entry, entry2)
+    saving_button = Button(saving_files_window, text="Save", height=2, width=12, command=save_fileee)
+    saving_button.pack()
+
 #ligma check this out
 def ask_open_file():
     global file_path
@@ -190,15 +205,6 @@ def ask_open_file():
             text.insert(END, ''.join(f.readlines()))
 
 
-#ayo lock in this is the place where you insert file name \(-_-)/
-entry = Entry()
-entry.insert(0,'filename')
-entry.config(width=20)
-entry.pack()
-entry2 = Entry()
-entry2.insert(0,'ext')
-entry2.config(width=8)
-entry2.pack()
 
 
 # Creating text area and showing it
@@ -219,7 +225,7 @@ saving_files_button.place(x=0, y=0)
 opening_files_button = Button(window, fg="black", text="open a file", command=ask_open_file)
 opening_files_button.place(x=60, y=0)
 input = text.get("1.0", END)
-print(input)
+
 def on_press(key):
     global Output
     try:
@@ -235,6 +241,7 @@ listener.start()
 
 # Looooooop
 window.mainloop()
+
 
 
 # ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
